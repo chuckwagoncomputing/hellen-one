@@ -7,6 +7,10 @@ on:
         description: 'Token for accessing private repos'
         required: false
         type: string
+      working-directory:
+        description: 'Working Directory'
+        required: false
+        type: string
 
 jobs:
   create-board:
@@ -33,8 +37,9 @@ jobs:
           pip install kicad-netlist-reader
 
       - name: Generate Gerber Files
+        working-directory: ${{ inputs.working-directory }}
         run: |
-          bash hellen-one/kicad/bin/export.sh
+          bash ${{ github.workspace }}/hellen-one/kicad/bin/export.sh
 
       - name: 1. Build Docker
         run: |
