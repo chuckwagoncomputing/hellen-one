@@ -39,19 +39,20 @@ jobs:
       - name: Generate Gerber Files
         working-directory: ${{ inputs.working-directory }}
         run: |
-          bash ${{ github.workspace }}/hellen-one/kicad/bin/export.sh
+          echo "HELLENONE=${{ github.workspace }}/$(git submodule status | grep hellen-one | cut -d ' ' -f 3)" >> $GITHUB_ENV
+          bash "$HELLENONE/kicad/bin/export.sh"
 
       - name: 1. Build Docker
         run: |
-          bash hellen-one/bin/step1_build_hellen-one_docker.sh
+          bash "$HELLENONE/bin/step1_build_hellen-one_docker.sh"
 
       - name: 2. Copy
         run: |
-          bash hellen-one/bin/step2_copy_with_docker.sh
+          bash "$HELLENONE/bin/step2_copy_with_docker.sh"
 
       - name: 3. Create Board
         run: |
-          bash hellen-one/bin/step3_create_board_with_docker.sh
+          bash "$HELLENONE/bin/step3_create_board_with_docker.sh"
 
       - name: Commit fresh board files
         env:
@@ -62,7 +63,7 @@ jobs:
               git checkout "$f"
             fi
           done
-          bash hellen-one/bin/gha-commit.sh
+          bash "$HELLENONE/bin/gha-commit.sh"
 
       - name: Push board files
 # let's support both newer 'main' and older 'master' repositories
