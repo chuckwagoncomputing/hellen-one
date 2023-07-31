@@ -36,10 +36,12 @@ jobs:
           sudo apt-get install kicad
           pip install kicad-netlist-reader
 
-      - name: Generate Gerber Files
-        working-directory: ${{ inputs.working-directory }}
+      - name: Set Hellen-one location
         run: |
           echo "HELLENONE=${{ github.workspace }}/$(git submodule status | grep hellen-one | cut -d ' ' -f 3)" >> $GITHUB_ENV
+
+      - name: Generate Gerber Files
+        working-directory: ${{ inputs.working-directory }}
           bash "$HELLENONE/kicad/bin/export.sh"
 
       - name: 1. Build Docker
