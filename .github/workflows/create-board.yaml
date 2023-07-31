@@ -42,6 +42,7 @@ jobs:
 
       - name: Generate Gerber Files
         working-directory: ${{ inputs.working-directory }}
+        run: |
           bash "$HELLENONE/kicad/bin/export.sh"
 
       - name: 1. Build Docker
