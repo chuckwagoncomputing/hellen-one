@@ -1,10 +1,12 @@
 #!/bin/bash
 
-if [ ! -e hellen-one/git_scripts ]; then
+SCRIPTDIR=$(dirname "$0")
+
+if [ ! -e "$SCRIPTDIR/../git_scripts" ]; then
     echo "No submodules?"
     git submodule update --init --recursive
 fi
 
-cd hellen-one
+cd "$SCRIPTDIR"
 
 docker build -t hellen-one .
